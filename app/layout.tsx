@@ -16,8 +16,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "learnOS",
-  description: "A focused learning workspace for the LeetCode 150.",
+  title: "learnOS | Study YouTube without distractions",
+  description:
+    "Paste a YouTube link and turn it into a focused workspace with summaries, chat, quizzes, transcript, and visual maps.",
 };
 
 export default function RootLayout({
