@@ -3,7 +3,6 @@ import {
   ArrowRight,
   Binary,
   BookOpenCheck,
-  BrainCircuit,
   Code2,
   Compass,
   Cuboid,
@@ -11,6 +10,7 @@ import {
   Sparkles,
 } from "lucide-react";
 
+import { HeroAlgorithmScene } from "@/components/hero-algorithm-scene";
 import { LandingHeader } from "@/components/landing-header";
 import { Button } from "@/components/ui/button";
 
@@ -62,7 +62,7 @@ export function LandingPage() {
                 LeetCode 150 workspace
               </div>
 
-              <h1 className="text-5xl font-semibold leading-[0.92] tracking-normal text-balance sm:text-7xl lg:text-8xl">
+              <h1 className="text-5xl font-semibold leading-[0.92] tracking-normal text-balance sm:text-7xl">
                 Practice patterns in one focused workspace.
               </h1>
 
@@ -97,138 +97,7 @@ export function LandingPage() {
               </div>
             </div>
 
-            <div className="relative mt-11 w-full max-w-6xl pb-10 lg:mt-10">
-              <div className="absolute -left-2 top-16 z-10 hidden w-52 rounded-lg border border-[#191713]/10 bg-[#f7f4ec] p-4 text-left shadow-xl shadow-[#191713]/10 md:block">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#1b9aaa]">
-                  Progress
-                </p>
-                <div className="mt-4 space-y-3">
-                  {["Arrays", "Windows", "Graphs"].map((item, index) => (
-                    <div key={item} className="flex items-center gap-3">
-                      <span className="flex size-7 items-center justify-center rounded-md bg-[#191713] font-mono text-xs text-[#f7f4ec]">
-                        {index + 1}
-                      </span>
-                      <div className="h-2 flex-1 rounded-full bg-[#191713]/10">
-                        <div
-                          className="h-full rounded-full bg-[#ff6b35]"
-                          style={{ width: `${78 - index * 18}%` }}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="absolute -right-2 top-2 z-10 hidden rotate-2 rounded-md bg-[#ff6b35] px-4 py-3 text-sm font-semibold text-white shadow-xl shadow-[#ff6b35]/20 sm:block">
-                Hint 2 unlocked
-              </div>
-
-              <div className="absolute -bottom-1 right-8 z-10 hidden max-w-64 -rotate-2 rounded-lg border border-[#1b9aaa]/25 bg-[#e7f8f4] p-4 text-left shadow-xl shadow-[#191713]/10 lg:block">
-                <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-[#146c6f]">
-                  <Cuboid className="size-4" aria-hidden="true" />
-                  Visual mode ready
-                </div>
-                <p className="text-sm leading-6 text-[#315d5a]">
-                  Turn graph traversals and pointer movement into spatial
-                  traces.
-                </p>
-              </div>
-
-              <div className="mx-auto rounded-lg border border-[#191713]/15 bg-[#191713] p-3 text-left shadow-2xl shadow-[#191713]/20 md:w-[82%]">
-                <div className="rounded-md border border-white/10 bg-[#211f1b]">
-                  <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
-                    <div className="flex items-center gap-2">
-                      <span className="size-2.5 rounded-full bg-[#ff6b35]" />
-                      <span className="size-2.5 rounded-full bg-[#f7c948]" />
-                      <span className="size-2.5 rounded-full bg-[#1b9aaa]" />
-                    </div>
-                    <span className="font-mono text-xs text-white/45">
-                      two-sum.ts
-                    </span>
-                  </div>
-
-                  <div className="grid gap-0 lg:grid-cols-[1fr_.7fr_.85fr]">
-                    <div className="border-b border-white/10 p-5 lg:border-b-0 lg:border-r">
-                      <div className="mb-5 flex items-center justify-between">
-                        <div>
-                          <p className="text-sm font-medium text-white">
-                            Two Sum
-                          </p>
-                          <p className="text-xs text-white/45">
-                            Arrays & Hashing
-                          </p>
-                        </div>
-                        <span className="rounded-full bg-[#1b9aaa]/20 px-2.5 py-1 text-xs font-medium text-[#79e0d4]">
-                          Pattern found
-                        </span>
-                      </div>
-
-                      <div className="space-y-2 font-mono text-sm leading-6 text-white/78">
-                        <p>
-                          <span className="text-[#79e0d4]">const</span> seen =
-                          new Map()
-                        </p>
-                        <p>
-                          <span className="text-[#79e0d4]">for</span> (i, value)
-                          of nums
-                        </p>
-                        <p className="rounded bg-white/8 px-2 py-1 text-white">
-                          target - value exists
-                        </p>
-                        <p className="text-white/45">return [seen, i]</p>
-                      </div>
-                    </div>
-
-                    <div className="border-b border-white/10 p-5 lg:border-b-0 lg:border-r">
-                      <div className="mb-4 flex items-center gap-2 text-sm font-medium text-white">
-                        <Compass
-                          className="size-4 text-[#ff6b35]"
-                          aria-hidden="true"
-                        />
-                        Guidance
-                      </div>
-                      <ol className="space-y-3 text-sm leading-6 text-white/64">
-                        <li className="rounded-md bg-white/6 p-3">
-                          What value would complete the pair?
-                        </li>
-                        <li className="rounded-md bg-white/6 p-3">
-                          Store visited numbers for O(1) lookup.
-                        </li>
-                      </ol>
-                    </div>
-
-                    <div className="p-5">
-                      <div className="mb-4 flex items-center gap-2 text-sm font-medium text-white">
-                        <BrainCircuit
-                          className="size-4 text-[#f7c948]"
-                          aria-hidden="true"
-                        />
-                        Visual trace
-                      </div>
-                      <div className="grid grid-cols-4 gap-2">
-                        {[2, 7, 11, 15].map((value, index) => (
-                          <div
-                            key={value}
-                            className="flex aspect-square flex-col items-center justify-center rounded-md border border-white/10 bg-white/6"
-                          >
-                            <span className="text-lg font-semibold text-white">
-                              {value}
-                            </span>
-                            <span className="text-xs text-white/35">
-                              i={index}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                      <div className="mt-4 rounded-md border border-[#f7c948]/30 bg-[#f7c948]/10 p-3 text-sm leading-6 text-[#fff3b0]">
-                        Store the complement. The answer appears when the next
-                        value closes the pair.
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <HeroAlgorithmScene />
           </div>
         </div>
       </section>
