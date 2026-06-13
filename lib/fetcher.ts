@@ -1,5 +1,3 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL!;
-
 export class UnauthenticatedError extends Error {
   constructor() {
     super("Unauthenticated");
@@ -8,7 +6,7 @@ export class UnauthenticatedError extends Error {
 }
 
 async function attempt(input: string, init?: RequestInit): Promise<Response> {
-  return fetch(`${API_URL}${input}`, {
+  return fetch(input, {
     ...init,
     credentials: "include",
     headers: {
@@ -35,5 +33,15 @@ export async function fetcher<T>(path: string, init?: RequestInit): Promise<T> {
     throw new Error(`Request failed: ${res.status}`);
   }
 
-  return res.json() as Promise<T>;
+  if (res.status === 204) {
+    return undefined as T;
+  }
+
+  const text = await res.text();
+
+  if (!text) {
+    return undefined as T;
+  }
+
+  return JSON.parse(text) as T;
 }

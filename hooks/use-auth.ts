@@ -1,12 +1,17 @@
 import { fetcher, UnauthenticatedError } from "@/lib/fetcher";
 import useSWR from "swr";
 
-type User = {
+export type User = {
   id: string;
+  email: string | null;
+  name: string | null;
+  externalId: string;
   username: string | null;
   firstName: string | null;
   lastName: string | null;
+  photoUrl: string | null;
   phone: string | null;
+  languageCode: "en" | "uz" | null;
 };
 
 type MeResponse = {
@@ -30,6 +35,7 @@ export function useAuth() {
     isLoading,
     isAuthenticated: !!data?.user,
     isUnauthenticated,
+    error,
     mutate,
   };
 }

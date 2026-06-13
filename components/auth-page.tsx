@@ -1,8 +1,8 @@
 "use client";
 
+import { BrandLogo } from "@/components/brand-logo";
 import { verifyPasscode } from "@/lib/auth";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
@@ -22,7 +22,19 @@ const passcodeSchema = z.object({
 
 type PasscodeForm = z.infer<typeof passcodeSchema>;
 
-export function AuthPage() {
+type AuthPageProps = {
+  nextPath?: string;
+};
+
+function getSafeNextPath(nextPath: string | undefined) {
+  if (!nextPath?.startsWith("/") || nextPath.startsWith("//")) {
+    return "/dashboard";
+  }
+
+  return nextPath;
+}
+
+export function AuthPage({ nextPath }: AuthPageProps) {
   const router = useRouter();
   const form = useForm<PasscodeForm>({
     defaultValues: {
@@ -42,7 +54,7 @@ export function AuthPage() {
 
     try {
       await verifyPasscode(result.data.passcode);
-      router.push("/");
+      router.push(getSafeNextPath(nextPath));
       router.refresh();
     } catch {
       form.setError("passcode", {
@@ -65,14 +77,7 @@ export function AuthPage() {
 
       <header className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-8 sm:px-10">
         <Link href="/" className="flex items-center">
-          <Image
-            src="/logo.png"
-            alt="learnOS"
-            width={2508}
-            height={627}
-            priority
-            className="h-auto w-36 object-contain"
-          />
+          <BrandLogo priority className="w-36" />
         </Link>
         <Link
           href="/"
