@@ -49,6 +49,27 @@ Use the default canonical triage labels: `needs-triage`, `needs-info`, `ready-fo
 
 This is a single-context repo. Read root `CONTEXT.md` and relevant `docs/adr/` files when they exist; proceed silently when they do not. See `docs/agents/domain.md`.
 
+### Engineering skill package
+
+The engineering skill package is vendored from `addyosmani/agent-skills` without content changes:
+
+- Skill workflows live in `.agents/skills/<skill-name>/SKILL.md` and are discovered automatically.
+- Shared skill checklists live in `.agents/references/`.
+- Keep these files synchronized with the upstream clone by copying them again; do not maintain project-specific edits inside the vendored files.
+
+Use `using-agent-skills` to select the smallest relevant workflow for a task. The skill package supplements the project-specific rules in this file; it does not override them.
+
+### Specialist agent personas
+
+The exact upstream persona prompts live at:
+
+- `.agents/code-reviewer.md`
+- `.agents/security-auditor.md`
+- `.agents/test-engineer.md`
+- `.agents/web-performance-auditor.md`
+
+These Markdown files are reusable persona prompts, not automatically discovered Codex custom-agent manifests. When the user explicitly requests one of these personas, read the corresponding file completely and apply it to that task. Spawn or parallelize agents only when the user explicitly requests delegation, subagents, or parallel agent work; the primary agent owns orchestration and final synthesis.
+
 ### Skill Routing
 
 - Use `zoom-out` when the code area is unfamiliar and you need a map of modules, callers, and domain terms before editing.
