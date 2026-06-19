@@ -39,15 +39,15 @@ There is intentionally no `src/` directory. Use the root-level folders above.
 
 ### Issue tracker
 
-Issues, PRDs, and implementation slices live in GitHub Issues for `xasanovdev/learnOS-frontend`. Use `gh` from this repo. See `docs/agents/issue-tracker.md`.
+Issues, PRDs, and implementation slices live in GitHub Issues for `xasanovdev/learnOS-frontend`. Use `gh` from the repository root so it infers the repository from `git remote -v`.
 
 ### Triage labels
 
-Use the default canonical triage labels: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, and `wontfix`. See `docs/agents/triage-labels.md`.
+Use the default canonical triage state labels: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, and `wontfix`. Every triaged issue should carry exactly one state label and exactly one category label such as `bug` or `enhancement`. AFK-ready work uses `ready-for-agent`; work requiring human judgment uses `ready-for-human`.
 
 ### Domain docs
 
-This is a single-context repo. Read root `CONTEXT.md` and relevant `docs/adr/` files when they exist; proceed silently when they do not. See `docs/agents/domain.md`.
+This is a single-context repo. Read root `CONTEXT.md` and relevant `docs/adr/` files when they exist; proceed silently when they do not. Use established domain vocabulary in issue titles, tests, implementation notes, and review findings. Surface conflicts with existing ADRs instead of silently overriding them.
 
 ### Engineering skill package
 
@@ -59,16 +59,16 @@ The engineering skill package is vendored from `addyosmani/agent-skills` without
 
 Use `using-agent-skills` to select the smallest relevant workflow for a task. The skill package supplements the project-specific rules in this file; it does not override them.
 
-### Specialist agent personas
+### Specialist agents
 
-The exact upstream persona prompts live at:
+Project-scoped Codex custom agents live at:
 
-- `.agents/code-reviewer.md`
-- `.agents/security-auditor.md`
-- `.agents/test-engineer.md`
-- `.agents/web-performance-auditor.md`
+- `.codex/agents/code-reviewer.toml`
+- `.codex/agents/security-auditor.toml`
+- `.codex/agents/test-engineer.toml`
+- `.codex/agents/web-performance-auditor.toml`
 
-These Markdown files are reusable persona prompts, not automatically discovered Codex custom-agent manifests. When the user explicitly requests one of these personas, read the corresponding file completely and apply it to that task. Spawn or parallelize agents only when the user explicitly requests delegation, subagents, or parallel agent work; the primary agent owns orchestration and final synthesis.
+Each manifest is a thin adapter over the exact upstream persona prompt in `.agents/*.md`, keeping the vendored prompt as the source of truth. Codex discovers these manifests in trusted projects. Spawn or parallelize them only when the user explicitly requests delegation, subagents, or parallel agent work; the primary agent owns orchestration and final synthesis.
 
 ### Skill Routing
 
@@ -78,7 +78,7 @@ These Markdown files are reusable persona prompts, not automatically discovered 
 - Use `frontend-design` for new or substantially changed UI. Match the product context and existing design system rather than producing generic layouts.
 - Use `react-doctor` after React changes when practical, especially after feature work, bug fixes, or reviews.
 - Use `improve-codebase-architecture` for refactor requests, testability problems, shallow modules, or broad architecture review.
-- Use `to-prd`, `to-issues`, and `triage` only for product planning and issue-tracker workflows; follow `docs/agents/*` for tracker and label conventions.
+- Use `to-prd`, `to-issues`, and `triage` only for product planning and issue-tracker workflows; follow the tracker and label conventions in this file.
 
 ## Architecture Rules
 
