@@ -180,8 +180,11 @@ export function DashboardOverviewContent({
 
       {isLoading ? (
         <DashboardStatsSkeleton />
+      ) : error ? (
+        <DashboardStats status="unavailable" />
       ) : (
         <DashboardStats
+          status="available"
           roomsCount={rooms.length}
           totalVideos={totalVideos}
           visibleRoomsCount={visibleRooms.length}

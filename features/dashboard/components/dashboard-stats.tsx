@@ -1,14 +1,41 @@
 export function DashboardStats({
+  status,
   roomsCount,
   totalVideos,
   visibleRoomsCount,
   filtered,
 }: {
+  status: "available";
   roomsCount: number;
   totalVideos: number;
   visibleRoomsCount: number;
   filtered: boolean;
+} | {
+  status: "unavailable";
+  roomsCount?: never;
+  totalVideos?: never;
+  visibleRoomsCount?: never;
+  filtered?: never;
 }) {
+  if (status === "unavailable") {
+    return (
+      <section className="mt-6 grid gap-3 sm:grid-cols-3">
+        {[
+          ["Rooms", "Topic-based study spaces"],
+          ["Video links", "Across every playlist"],
+          ["Visible", "In your dashboard"],
+        ].map(([label, detail]) => (
+          <DashboardStat
+            key={label}
+            label={label}
+            value="—"
+            detail={`${detail} · Unavailable right now`}
+          />
+        ))}
+      </section>
+    );
+  }
+
   return (
     <section className="mt-6 grid gap-3 sm:grid-cols-3">
       <DashboardStat

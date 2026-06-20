@@ -10,6 +10,7 @@ import {
 import Link from "next/link";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { useSWRConfig } from "swr";
 
 import { BrandLogo } from "@/components/shared/brand-logo";
 import { DashboardNavItem } from "./dashboard-nav-item";
@@ -28,7 +29,8 @@ import {
 export function DashboardShell({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const { user, isLoading, isUnauthenticated, error, mutate } = useAuth();
+  const { mutate: mutateCache } = useSWRConfig();
+  const { user, isLoading, isUnauthenticated, error } = useAuth();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [logoutError, setLogoutError] = useState<string | null>(null);
 
@@ -50,7 +52,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
 
     try {
       await logout();
-      await mutate(undefined, { revalidate: false });
+      await mutateCache(() => true, undefined, { revalidate: false });
       router.replace("/auth");
       router.refresh();
     } catch {
@@ -126,9 +128,15 @@ export function DashboardShell({ children }: { children: ReactNode }) {
                     {getUserHandle(user)}
                   </p>
                 </div>
-                <div className="flex size-10 items-center justify-center rounded-md bg-[#0d0d0c] text-sm font-semibold text-white">
+                <Link
+                  href="/profile"
+                  aria-label="Open profile"
+                  aria-current={pathname === "/profile" ? "page" : undefined}
+                  title="Open profile"
+                  className="flex size-10 items-center justify-center rounded-md bg-[#0d0d0c] text-sm font-semibold text-white outline-none transition-colors hover:bg-[#2a2927] focus-visible:ring-2 focus-visible:ring-[#9d6550] focus-visible:ring-offset-2"
+                >
                   {getInitials(user)}
-                </div>
+                </Link>
                 <Button
                   type="button"
                   variant="outline"

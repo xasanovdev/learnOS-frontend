@@ -40,21 +40,29 @@ function ProfilePageContent({
   user: User;
   displayName: string;
 }) {
-  const { data: rooms = [], isLoading: isRoomsLoading } = useRooms();
+  const { data: rooms = [], error: roomsError, isLoading: isRoomsLoading } =
+    useRooms();
   const totalVideos = useMemo(
     () =>
       rooms.reduce((total, room) => total + (room._count?.roomVideos ?? 0), 0),
     [rooms],
   );
+  const stats: ProfileStats = roomsError
+    ? { status: "unavailable" }
+    : isRoomsLoading
+      ? { status: "loading" }
+      : {
+          status: "available",
+          roomsCount: rooms.length,
+          videosCount: totalVideos,
+        };
 
   return (
     <>
       <ProfileHero
         user={user}
         displayName={displayName}
-        roomsCount={rooms.length}
-        videosCount={totalVideos}
-        loadingStats={isRoomsLoading}
+        stats={stats}
       />
 
       <section className="mt-6 grid gap-4 xl:grid-cols-[minmax(0,1fr)_360px]">
@@ -91,11 +99,7 @@ function ProfilePageContent({
           </div>
         </div>
 
-        <ProfileSidebar
-          roomsCount={rooms.length}
-          videosCount={totalVideos}
-          loadingStats={isRoomsLoading}
-        />
+        <ProfileSidebar stats={stats} />
       </section>
     </>
   );
@@ -104,15 +108,11 @@ function ProfilePageContent({
 function ProfileHero({
   user,
   displayName,
-  roomsCount,
-  videosCount,
-  loadingStats,
+  stats,
 }: {
   user: DashboardUser;
   displayName: string;
-  roomsCount: number;
-  videosCount: number;
-  loadingStats: boolean;
+  stats: ProfileStats;
 }) {
   return (
     <section className="overflow-hidden border border-[#0d0d0c] bg-white shadow-[8px_8px_0_#0d0d0c]">
@@ -161,15 +161,19 @@ function ProfileHero({
         </div>
 
         <div className="mt-6 flex gap-6 border-t border-[#0d0d0c]/12 pt-5 text-sm">
-          {loadingStats ? (
+          {stats.status === "loading" ? (
             <>
               <ShimmerBlock className="h-4 w-20" />
               <ShimmerBlock className="h-4 w-20" />
             </>
+          ) : stats.status === "unavailable" ? (
+            <p className="font-medium text-[#0d0d0c]/58">
+              Learning activity unavailable
+            </p>
           ) : (
             <>
-              <ProfileCount value={roomsCount} label="Rooms" />
-              <ProfileCount value={videosCount} label="Videos" />
+              <ProfileCount value={stats.roomsCount} label="Rooms" />
+              <ProfileCount value={stats.videosCount} label="Videos" />
             </>
           )}
         </div>
@@ -179,13 +183,9 @@ function ProfileHero({
 }
 
 function ProfileSidebar({
-  roomsCount,
-  videosCount,
-  loadingStats,
+  stats,
 }: {
-  roomsCount: number;
-  videosCount: number;
-  loadingStats: boolean;
+  stats: ProfileStats;
 }) {
   return (
     <aside className="grid gap-4">
@@ -194,22 +194,26 @@ function ProfileSidebar({
           Learning activity
         </p>
         <div className="mt-5 grid gap-3">
-          {loadingStats ? (
+          {stats.status === "loading" ? (
             <>
               <ProfileActivitySkeleton />
               <ProfileActivitySkeleton />
             </>
+          ) : stats.status === "unavailable" ? (
+            <div className="border border-dashed border-[#0d0d0c]/18 bg-[#fffaf5] p-4 text-sm leading-6 text-[#0d0d0c]/58">
+              Room and video totals are unavailable right now.
+            </div>
           ) : (
             <>
               <ProfileActivity
                 icon={BookOpen}
                 label="Rooms"
-                value={roomsCount}
+                value={stats.roomsCount}
               />
               <ProfileActivity
                 icon={Video}
                 label="Videos"
-                value={videosCount}
+                value={stats.videosCount}
               />
             </>
           )}
@@ -234,6 +238,11 @@ function ProfileSidebar({
     </aside>
   );
 }
+
+type ProfileStats =
+  | { status: "loading" }
+  | { status: "unavailable" }
+  | { status: "available"; roomsCount: number; videosCount: number };
 
 function ProfileMetric({
   icon: Icon,
