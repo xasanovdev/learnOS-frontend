@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  BookOpen,
-  Library,
-  LogOut,
-  Sparkles,
-  UserRound,
-} from "lucide-react";
+import { BookOpen, Library, LogOut, Sparkles, UserRound } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
@@ -92,7 +86,9 @@ export function DashboardShell({ children }: { children: ReactNode }) {
 
           <nav className="space-y-1 text-sm font-medium">
             <DashboardNavItem
-              active={pathname === "/dashboard" || pathname.startsWith("/room/")}
+              active={
+                pathname === "/dashboard" || pathname.startsWith("/room/")
+              }
               href="/dashboard"
               icon={BookOpen}
               label="Rooms"
